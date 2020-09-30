@@ -21,6 +21,8 @@ class App extends Component {
         this.setState({characters: [...this.state.characters, character]});
     }
 
+    formInput = Form({handleSubmit: this.handleSubmit});
+
     render() {
         const { characters } = this.state;
         
@@ -33,7 +35,7 @@ class App extends Component {
                     removeCharacter={this.removeCharacter}
                 />
                 <h3>Add New</h3>
-                <Form handleSubmit={this.handleSubmit} />
+                {this.formInput}
             </div>
         );
     }

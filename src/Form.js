@@ -1,57 +1,48 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class Form extends Component {
-    constructor(props) {
-        super(props);
-        
-        this.initialState = {
-            name: '',
-            job: ''
-        };
+function Form(props) {
+    const data = { 
+        name: '',
+        job: ''
+    };
+    
+    const nameRef = React.createRef();
+    const jobRef = React.createRef();
 
-        this.state = this.initialState;
-    }
-
-    handleChange = event => {
+    const handleChange = event => {
         const { name, value } = event.target;
-
-        this.setState({
-            [name] : value
-        });
+        data[name] = value;
     }
 
-    onFormSubmit = (event) => {
+    const onFormSubmit = (event) => {
         event.preventDefault();
         
-        this.props.handleSubmit(this.state);
-        this.setState(this.initialState);
+        props.handleSubmit({...data});
+        nameRef.current.value = '';
+        jobRef.current.value = '';
     }
 
-    render() {
-        const { name, job } = this.state; 
-
-        return (
-            <form onSubmit={this.onFormSubmit}>
-                <label htmlFor="name">Name</label>
-                <input 
-                    type="text" 
-                    name="name" 
-                    id="name"
-                    value={name} 
-                    onChange={this.handleChange} />
-                <label htmlFor="job">Job</label>
-                <input 
-                    type="text" 
-                    name="job" 
-                    id="job"
-                    value={job} 
-                    onChange={this.handleChange} />
-                <button type="submit">
-                    Submit
-                </button>
-            </form>
-        );
-    }
+    return (
+        <form onSubmit={onFormSubmit}>
+            <label htmlFor="name">Name</label>
+            <input 
+                type="text" 
+                name="name" 
+                id="name"
+                ref={nameRef} 
+                onChange={handleChange} />
+            <label htmlFor="job">Job</label>
+            <input 
+                type="text" 
+                name="job" 
+                id="job"
+                ref={jobRef} 
+                onChange={handleChange} />
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+    );
 }
 
 export default Form;
